@@ -15,6 +15,24 @@
         {{message}}
       </h2>
 
+      <div class="todoItems">
+        
+        <div class="todoItem" 
+              v-bind:id="item.id" 
+              v-for="(item) in todoItems"
+        >
+
+          <button class="todoItem__button"
+                  v-bind:class="{done_true:item.done, done_false:!item.done}"
+          >
+            {{itemButtonText(item.id)}}
+          </button>
+          <p class="todoItem__text">{{item.text}}</p>
+          
+        </div>
+
+      </div>
+
     </div>
     
     <script src="index.js"></script>

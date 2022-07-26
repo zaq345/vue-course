@@ -1,3 +1,31 @@
 body{
   padding: 10px;
 }
+
+.todoItem{
+  display: flex;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  max-width: 750px;
+}
+
+.todoItem__button{
+  margin-right: 25px;
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+}
+
+.done_true{
+  background-color: green;
+}
+
+.done_false{
+  background-color: gray;
+}
+
+.todoItem__text{
+  margin: auto 0;
+}
