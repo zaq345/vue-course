@@ -2,6 +2,27 @@ body{
   padding: 10px;
 }
 
+.addingTasks{
+  display: flex;
+  margin-bottom: 10px;
+  height: 75px;
+  width: 750px;
+}
+
+.addingTasks__input{
+  border: 1px solid gray;
+  border-radius: 10px 0 0 10px;
+  width: 650px;
+  padding: 10px;
+}
+
+.addingTasks__button{
+  border: 1px solid gray;
+  border-radius: 0 10px 10px 0;
+  width: 100px;
+  background-color: white;
+}
+
 .todoItem{
   display: flex;
   margin-bottom: 10px;
