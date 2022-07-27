@@ -24,6 +24,7 @@
         >
         <button class="addingTasks__button"
                 v-on:click="addTask"
+                v-bind:disabled="buttonDisabled"
         >
           Add
         </button>
@@ -49,7 +50,20 @@
       </div>
 
     </div>
-    
+<!-- 
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Флажок по умолчанию
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+      <label class="form-check-label" for="flexCheckChecked">
+        Выбранный флажок
+      </label>
+    </div>
+     -->
     <script src="index.js"></script>
   </body>
 </html>

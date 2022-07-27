@@ -29,7 +29,9 @@ var app = new Vue({
   },
 
   computed: {
-
+    buttonDisabled(){
+      return this.task.length == 0
+    }
   }
 });
 
