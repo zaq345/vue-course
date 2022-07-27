@@ -31,6 +31,20 @@ var app = new Vue({
   computed: {
     buttonDisabled(){
       return this.task.length == 0
+    }, 
+
+    comptededTasks(){
+      let count = 0;
+      for(let i = 0; i < this.todoItems.length; i++){
+        if (this.todoItems[i].done){
+          count++;
+        }
+      }
+      return count;
+    }, 
+
+    percentageDoneTasks(){
+      return ((this.comptededTasks / this.todoItems.length) * 100).toFixed(2) + '%'
     }
   }
 });

@@ -23,6 +23,19 @@ body{
   background-color: white;
 }
 
+.statisticsBlock{
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.statisticsBlock__item{
+  color: white;
+  background-color: blue;
+  margin-right: 10px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
 .todoItem{
   display: flex;
   margin-bottom: 10px;
