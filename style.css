@@ -71,3 +71,11 @@ body{
 .todoItem__text{
   margin: auto 0;
 }
+
+.zeroBlock{
+  width: 750px;
+  display: flex;
+}
+.zeroBlock__text{
+  margin: auto;
+}

@@ -51,20 +51,18 @@
                   v-bind:all="todoItems.length"
       ></statistics>
 
-
-      <!--  -->
       <input class="inputSearch" type="text" v-model="search" placeholder="Search something ...">
-      <!--  -->
 
       <div class="todoItems">
+
+        <div class="zeroBlock" v-if="todoItems.length == 0">
+          <p class="zeroBlock__text">Please add new task</p>
+        </div>
         
         <div class="todoItem" 
               v-bind:id="item.id" 
               v-for="(item) in todoSort"
         >
-
-        <!-- v-for="(item) in todoItems" -->
-        <!-- v-for="(item) in todoSort" -->
 
           <button class="todoItem__button"
                   v-bind:class="{done_true:item.done, done_false:!item.done}"
