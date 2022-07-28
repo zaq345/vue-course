@@ -1,3 +1,36 @@
+Vue.component('statistics', {
+  props: {
+    done: Number,
+    all: Number,
+  },
+
+  computed: {
+    percentage(){
+      return (this.done / this.all).toFixed(2) * 100 + '%'
+    }
+  },
+
+  template: 
+  `
+    <div class="statisticsBlock">
+
+      <div class="statisticsBlock__item completedTasks">
+        Compleded Tasks {{done}}
+      </div>
+
+      <div class="statisticsBlock__item allTasks">
+        All Tasks {{all}}
+      </div>
+
+      <div class="statisticsBlock__item percentageDoneTasks">
+        Percent complete tasklist {{percentage}}
+      </div>
+
+    </div>
+  `
+});
+
+
 var app = new Vue({ 
   el: '#app',
 
@@ -44,9 +77,7 @@ var app = new Vue({
     }, 
 
     percentageDoneTasks(){
-      return ((this.comptededTasks / this.todoItems.length) * 100).toFixed(2) + '%'
+      return (this.comptededTasks / this.todoItems.length).toFixed(2) * 100 + '%'
     }
   }
 });
-
-
