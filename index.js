@@ -45,6 +45,7 @@ var app = new Vue({
     ],
     task: "",
     search: "",
+    picked: "",
   },
 
   methods: {
@@ -59,6 +60,19 @@ var app = new Vue({
         done: false
       });
       this.task = "";
+    },
+
+    show(done){
+      if (done == false){
+        if (this.picked == 1 || this.picked == 3){
+          return true
+        }
+      }
+      if (done == true){
+        if (this.picked == 1 || this.picked == 2){
+          return true
+        }
+      }
     }
   },
 

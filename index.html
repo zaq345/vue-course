@@ -53,6 +53,24 @@
 
       <input class="inputSearch" type="text" v-model="search" placeholder="Search something ...">
 
+      <div class="selectors">
+        <div class="selectors__first">
+          <input type="radio" id="one" value="1" name="tasks" v-model="picked" checked="true">
+          <label for="one">Отображать все задачи</label>          
+        </div>
+
+        <div class="selectors__second">
+          <input type="radio" id="two" value="2" name="tasks" v-model="picked">
+          <label for="two">Отображать выполненные</label>
+        </div>
+
+        <div class="selectors__third">
+          <input type="radio" id="three" value="3" name="tasks" v-model="picked">
+          <label for="three">Отображать невыполненные</label>
+        </div>
+
+      </div>
+
       <div class="todoItems">
 
         <div class="zeroBlock" v-if="todoItems.length == 0">
@@ -62,6 +80,7 @@
         <div class="todoItem" 
               v-bind:id="item.id" 
               v-for="(item) in todoSort"
+              v-if="show(item.done)"
         >
 
           <button class="todoItem__button"
