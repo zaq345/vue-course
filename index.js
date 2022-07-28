@@ -43,7 +43,8 @@ var app = new Vue({
       {id: 4, text: 'task 4', done: false},
       {id: 5, text: 'task 5', done: false},
     ],
-    task: ""
+    task: "",
+    search: "",
   },
 
   methods: {
@@ -78,6 +79,11 @@ var app = new Vue({
 
     percentageDoneTasks(){
       return (this.comptededTasks / this.todoItems.length).toFixed(2) * 100 + '%'
-    }
+    },
+
+    ////////////////////////////
+    todoSort() {
+      return this.todoItems.filter(item => item.text.indexOf(this.search) !== -1)
+    },
   }
 });
