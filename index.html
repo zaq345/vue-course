@@ -71,28 +71,36 @@
 
       </div>
 
-      <div class="todoItems">
+      <!-- <ul class="taskList">
 
-        <div class="zeroBlock" v-if="todoItems.length == 0">
+        <li class="zeroBlock" v-if="todoItems.length == 0">
           <p class="zeroBlock__text">Please add new task</p>
-        </div>
+        </li>
         
-        <div class="todoItem" 
+        <li class="task" 
               v-bind:id="item.id" 
               v-for="(item) in todoSort"
               v-if="show(item.done)"
         >
 
-          <button class="todoItem__button"
+          <button class="task__button"
                   v-bind:class="{done_true:item.done, done_false:!item.done}"
+                  v-on:click="item.done = !item.done"
+
           >
             {{itemButtonText(item.id)}}
           </button>
-          <p class="todoItem__text">{{item.text}}</p>
+          <p class="task__text">{{item.text}}</p>
           
-        </div>
+        </li>
 
-      </div>
+      </ul> -->
+
+      <tasklist v-bind:list="todoItems" 
+                v-bind:picked="picked"
+                v-bind:search="search"
+      ></tasklist>
+      
 
     </div>
 
