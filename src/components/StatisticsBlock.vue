@@ -1,7 +1,7 @@
 <template>
   <div class="statisticsBlock">
     <div class="statisticsBlock__item completedTasks">
-      Compleded Tasks {{done}}
+      Completed Tasks {{done}}
     </div>
     <div class="statisticsBlock__item allTasks">
       All Tasks {{all}}
