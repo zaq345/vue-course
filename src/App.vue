@@ -28,7 +28,7 @@
     <div class="selectors">
 
       <div class="selectors__first">
-        <input type="radio" id="one" value="1" name="tasks" v-model="picked" checked="true">
+        <input type="radio" id="one" value="1" name="tasks" v-model="picked">
         <label for="one">Отображать все задачи</label>          
       </div>
 
@@ -44,9 +44,11 @@
 
     </div>
 
-    <TaskList v-bind:list.sync="todoItems" 
+    <TaskList v-bind:list="todoItems" 
               v-bind:picked="picked"
-              v-bind:search="search"/>
+              v-bind:search="search"
+              v-on:buttonDoneChange="buttonDoneChange"
+              v-on:deleteItem="deleteItem"/>
 
 
   </div>
@@ -79,25 +81,31 @@ export default {
   },
   computed: {
     completedTasks(){
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
       let count = 0;
-      for(let i = 0; i < todoListLocal.length; i++){
-        if (todoListLocal[i].done){
+      for(let i = 0; i < this.todoItems.length; i++){
+        if (this.todoItems[i].done){
           count++;
-          console.log(count)
         }
       }
       return count;
     }, 
     allTasks(){
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
 
-      return todoListLocal.length;
+      return this.todoItems.length;
     }, 
     buttonDisabled(){
       return this.task.trim().length == 0
     }, 
   },
+  async mounted(){
+    const data = await localStorage.getItem('todoListLocal');   
+    if(data){
+      this.todoItems = JSON.parse(data)
+      console.log(this.todoItems)
+    }
+  }, 
   methods:{
     addTask(){
       this.todoItems.push({
@@ -107,21 +115,45 @@ export default {
       });
 
       ////////////////
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
 
-      todoListLocal.push({
-        id: todoListLocal.length + 1,
-        text: this.task,
-        done: false
-      });
+      // todoListLocal.push({
+      //   id: todoListLocal.length + 1,
+      //   text: this.task,
+      //   done: false
+      // });
       
-      localStorage.setItem('todoListLocal', JSON.stringify(todoListLocal));
+      localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
       //////////////
 
       // localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
 
       this.task = "";
     },
+
+    ////////////
+    deleteItem(id){
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
+
+      this.todoItems.splice(id-1, 1);
+
+      for(let i = 0; i < this.todoItems.length; i++){
+        this.todoItems[i].id = i+1;
+      }
+
+
+      localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
+
+      // item.done = !item.done
+    },
+
+    buttonDoneChange(id){
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
+
+      this.todoItems[id-1].done = !this.todoItems[id-1].done
+
+      localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
+    }
   }
 }
 </script>

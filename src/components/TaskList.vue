@@ -13,13 +13,16 @@
     >
       <button class="task__button"
               v-bind:class="{done_true:item.done, done_false:!item.done}"
-              v-on:click="buttonDoneChange(item.id)"
+              v-on:click="$emit('buttonDoneChange', item.id)"
       >
+      <!-- v-on:click="buttonDoneChange(item.id)" 
+      v-on:click="$emit('buttonDoneChange', item.id)"-->
         {{itemButtonText(item.id)}}
       </button>
       <p class="task__text">{{item.text}}</p>
 
-      <button class="delete__button" v-on:click="deleteItem(item.id)">
+      <!-- <button class="delete__button" v-on:click="deleteItem(item.id)"> -->
+      <button class="delete__button" v-on:click="$emit('deleteItem', item.id)">
         Удалить
       </button>
     
@@ -37,57 +40,30 @@ export default {
   //   search: String
   // },
   props: ["list", "picked", "search"],
-  data() {
-      return {
-        // todoItems: this.list
-      }
-  },
   computed: {
     todoSort() {
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
 
-      return todoListLocal.filter(item => ((item.text.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))
-
-      // return this.list.filter(item => ((item.text.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))
+      return this.list.filter(item => ((item.text.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))
+      // return this.list
     },
 
     zeroBlockVisibility(){
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
 
-      return todoListLocal.length == 0
+      // return false
+      return this.list.length == 0
     },
   },
 
   methods: {
     itemButtonText(id){
-      // console.log(id)
-
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
-
-      return todoListLocal[id-1].done ? 'completed' : 'in order';
-    },
-
-    buttonDoneChange(id){
-      let todoListLocal = JSON.parse(localStorage.todoListLocal)
-
-      todoListLocal[id-1].done = !todoListLocal[id-1].done
-
-      localStorage.setItem('todoListLocal', JSON.stringify(todoListLocal));
-
-      // this.$forceUpdate();
-
-      // return todoListLocal[id-1].done
-
-      // item.done = !item.done
-    },
-
-    deleteItem(id){
-
       console.log(id)
 
-      // this.todoItems.splice(id-1, 1);
+      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
 
-
+      return this.list[id-1].done ? 'completed' : 'in order';
+      // return 'in order';
     },
 
   },
