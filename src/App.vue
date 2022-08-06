@@ -48,8 +48,9 @@
               v-bind:picked="picked"
               v-bind:search="search"
               v-on:buttonDoneChange="buttonDoneChange"
-              v-on:deleteItem="deleteItem"/>
-
+              v-on:deleteItem="deleteItem"
+              v-on:editItemDescription="editItemDescription"
+              v-on:changeDescription="changeDescription"/>
 
   </div>
 </template>
@@ -81,7 +82,6 @@ export default {
   },
   computed: {
     completedTasks(){
-      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
       let count = 0;
       for(let i = 0; i < this.todoItems.length; i++){
         if (this.todoItems[i].done){
@@ -91,8 +91,6 @@ export default {
       return count;
     }, 
     allTasks(){
-      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
-
       return this.todoItems.length;
     }, 
     buttonDisabled(){
@@ -103,7 +101,6 @@ export default {
     const data = await localStorage.getItem('todoListLocal');   
     if(data){
       this.todoItems = JSON.parse(data)
-      console.log(this.todoItems)
     }
   }, 
   methods:{
@@ -112,46 +109,34 @@ export default {
         id: this.todoItems.length + 1,
         text: this.task,
         done: false
-      });
-
-      ////////////////
-      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
-
-      // todoListLocal.push({
-      //   id: todoListLocal.length + 1,
-      //   text: this.task,
-      //   done: false
-      // });
-      
+      });  
       localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
-      //////////////
-
-      // localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
-
       this.task = "";
     },
 
-    ////////////
     deleteItem(id){
-      // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
-
       this.todoItems.splice(id-1, 1);
-
       for(let i = 0; i < this.todoItems.length; i++){
         this.todoItems[i].id = i+1;
       }
-
-
       localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
-
-      // item.done = !item.done
     },
 
     buttonDoneChange(id){
       // let todoListLocal = JSON.parse(localStorage.getItem('todoListLocal'))
 
-      this.todoItems[id-1].done = !this.todoItems[id-1].done
+      this.todoItems[id-1].done = !this.todoItems[id-1].done;
 
+      localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
+    },
+
+    editItemDescription(id){
+      let textarea = document.getElementById(id + "edit")
+      textarea.value = this.todoItems[id-1].text;
+    },
+
+    changeDescription(id){
+      this.todoItems[id-1].text = document.getElementById(id + "edit").value;
       localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
     }
   }
@@ -190,7 +175,7 @@ body{
   margin-bottom: 10px;
   border-radius: 10px;
   padding: 22px;
-  width: 704px;
+  width: 750px;
 }
 
 .selectors{
