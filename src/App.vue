@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <h2>
+    <h2 v-color="color">
       {{message}}
     </h2>
 
@@ -23,7 +23,7 @@
 
     <StatisticsBlock v-bind:done="completedTasks" v-bind:all="allTasks"/>
 
-    <input class="inputSearch" type="text" v-model="search" placeholder="Search something ...">
+    <input class="inputSearch" type="text" v-model="search" placeholder="Search something ..." v-blur>
 
     <div class="selectors">
 
@@ -64,7 +64,17 @@ export default {
   components: {
     StatisticsBlock,
     TaskList
-},
+  },
+  directives: {
+    "color": function (el, binding) {
+      el.style.backgroundColor = binding.value
+    },
+    "blur": function (el) {
+      el.onblur = function(){
+        console.log(el + ' this element has lost focus')
+      }
+    },
+  },
   data(){ 
     return {
       message: "Hello from Vue App",
@@ -78,6 +88,7 @@ export default {
       task: "",
       search: "",
       picked: "1",
+      color: "#DCDCDC",
     }
   },
   computed: {
@@ -141,6 +152,11 @@ export default {
     }
   }
 }
+
+// Vue.directive('background-color-switch', function (el, binding) {
+//   el.style.backgroundColor = binding.value
+// })
+
 </script>
 
 <style>
