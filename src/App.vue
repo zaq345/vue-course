@@ -54,7 +54,7 @@
 
 
 
-    <ButtonComponent :tag="'button'">Это кнопка, ну или нет...</ButtonComponent>
+    <ButtonComponent :tag="'button'">{{money | convert}}</ButtonComponent>
 
     
 
@@ -97,6 +97,7 @@ export default {
       search: "",
       picked: "1",
       color: "#DCDCDC",
+      money: 10000,
     }
   },
   computed: {
@@ -157,6 +158,12 @@ export default {
     changeDescription(id){
       this.todoItems[id-1].text = document.getElementById(id + "edit").value;
       localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
+    }
+  },
+  filters: {
+    convert: function (value) {
+      
+      return value.toLocaleString() + ' руб'
     }
   }
 }
