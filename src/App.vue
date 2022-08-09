@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <h2 v-color="color">
+    <h2 v-color="color" class="header">
       {{message}}
     </h2>
 
@@ -52,18 +52,26 @@
               v-on:editItemDescription="editItemDescription"
               v-on:changeDescription="changeDescription"/>
 
+
+
+    <ButtonComponent :tag="'button'">Это кнопка, ну или нет...</ButtonComponent>
+
+    
+
   </div>
 </template>
 
 <script>
 import StatisticsBlock from './components/StatisticsBlock.vue'
 import TaskList from './components/TaskList.vue'
+import ButtonComponent from './components/ButtonComponent.vue'
 
 export default {
   name: 'App',
   components: {
     StatisticsBlock,
-    TaskList
+    TaskList,
+    ButtonComponent
   },
   directives: {
     "color": function (el, binding) {
@@ -153,16 +161,18 @@ export default {
   }
 }
 
-// Vue.directive('background-color-switch', function (el, binding) {
-//   el.style.backgroundColor = binding.value
-// })
-
 </script>
 
 <style>
 body{
   padding: 10px;
   margin: 0;
+}
+
+.header{
+  padding: 10px;
+  border-radius: 10px;
+  width: 750px;
 }
 
 .addingTasks{
