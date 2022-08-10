@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import HookMixin from '@/mixins/HookMixin.vue';
+
 export default {
   name: 'TaskList',
   // props: {
@@ -72,6 +74,7 @@ export default {
   //   search: String
   // },
   props: ["list", "picked", "search"],
+  mixins: [HookMixin],
   computed: {
     todoSort() {
       return this.list.filter(item => ((item.text.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))

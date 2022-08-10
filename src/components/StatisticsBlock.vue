@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import HookMixin from '@/mixins/HookMixin.vue';
 export default {
   name: 'StatisticsBlock',
   props: {
@@ -20,6 +21,7 @@ export default {
     done: Number,
     all: Number,
   },
+  mixins: [HookMixin],
   computed: {
     percentage(){
       return (this.done / this.all * 100).toFixed()  + '%'
