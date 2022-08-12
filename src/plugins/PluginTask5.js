@@ -1,5 +1,9 @@
+import ButtonComponent from '../components/ButtonComponent.vue'
+
 export default {
-  install: (Vue, options) => {
+  install: (Vue) => {
+
+    Vue.component('ButtonComponent', ButtonComponent)
 
     Vue.directive('color', function (el, binding) {
         el.style.backgroundColor = binding.value
@@ -10,24 +14,10 @@ export default {
       }
     })
 
-    Vue.filters('convert', function(value){
-      return value.toLocaleString() + ' руб'
-    })
+    Vue.filter('convert', 
+      value => value.toLocaleString() + ' руб'
+      // return value.toLocaleString() + ' руб'
+    )
 
-
-    Vue.mixin({
-      name: 'HookMixin',
-
-      created(){
-        console.log('component created ', this.$vnode.tag)
-      },
-      mounted(){
-        console.log('component mounted ', this.$vnode.tag)
-      },
-      updated(){
-        console.log('component updated ', this.$vnode.tag)
-      }
-
-    })
   }
 }

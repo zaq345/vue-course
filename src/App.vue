@@ -64,25 +64,25 @@
 <script>
 import StatisticsBlock from './components/StatisticsBlock.vue'
 import TaskList from './components/TaskList.vue'
-import ButtonComponent from './components/ButtonComponent.vue'
+// import ButtonComponent from './components/ButtonComponent.vue'
 
 export default {
   name: 'App',
   components: {
     StatisticsBlock,
     TaskList,
-    ButtonComponent
+    // ButtonComponent
   },
-  directives: {
-    "color": function (el, binding) {
-      el.style.backgroundColor = binding.value
-    },
-    "blur": function (el) {
-      el.onblur = function(){
-        console.log(el + ' this element has lost focus')
-      }
-    },
-  },
+  // directives: {
+  //   "color": function (el, binding) {
+  //     el.style.backgroundColor = binding.value
+  //   },
+  //   "blur": function (el) {
+  //     el.onblur = function(){
+  //       console.log(el + ' this element has lost focus')
+  //     }
+  //   },
+  // },
   data(){ 
     return {
       message: "Hello from Vue App",
@@ -160,12 +160,12 @@ export default {
       localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
     }
   },
-  filters: {
-    convert: function (value) {
+  // filters: {
+  //   convert: function (value) {
       
-      return value.toLocaleString() + ' руб'
-    }
-  }
+  //     return value.toLocaleString() + ' руб'
+  //   }
+  // }
 }
 
 </script>
