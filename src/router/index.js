@@ -24,6 +24,11 @@ const routes = [
     component: () => import('../views/TaskListComponent.vue')
   },
   {
+    path: '/task/:id',
+    name: 'taskList',
+    component: () => import('../views/TaskComponent.vue')
+  },
+  {
     path: '*',
     name: 'Error404',
     component: () => import('../views/Error404Component.vue')
