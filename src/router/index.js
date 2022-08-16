@@ -8,15 +8,18 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    beforeRouteEnter: (to, from, next) => {
+      if (to.name == 'taskList') next(false)
+      else next()
+      console.log(to.name)
+    },
+
   },
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutComponent.vue')
+    component: () => import('../views/AboutComponent.vue')
   },
   {
     path: '/taskList',
@@ -25,7 +28,7 @@ const routes = [
   },
   {
     path: '/task/:id',
-    name: 'taskList',
+    name: 'task',
     component: () => import('../views/TaskComponent.vue')
   },
   {
