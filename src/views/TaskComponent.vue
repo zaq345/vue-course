@@ -16,6 +16,8 @@
 <script>
 import isAuthorised from '@/mixins/isAuthorised.vue';
 import router from '@/router';
+import axios from 'axios'
+
 
 export default{
   name: 'TaskListComponent',
@@ -28,7 +30,16 @@ export default{
     },
     randItem(){
       let num = Math.ceil(Math.random()*1000)
-      router.push({path: '/task/'+num, query: { desc: 'Some description of task id' + num }});
+
+      router.push({path: '/task/'+num, query: { desc: 'Some description of task id ' + num }});
+
+      axios
+      // .get('https://api.coindesk.com/v1/bpi/currentprice.json')
+      .get('http://localhost:3000/tasks')
+      .then(response => {
+        // console.log(response.data.bpi)
+        console.log(response.data[0])
+      })
     }
   }
 }
