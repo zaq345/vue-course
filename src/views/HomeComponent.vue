@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>This is a home page</h1>
-    <form action="" class="loginForm">
+    <form action="" class="loginForm" v-if="showForm">
       <input class="loginForm__input" 
               type="text" 
               placeholder="Login"
@@ -20,6 +20,13 @@
         Login
       </button>
     </form>
+
+    <button class="logOut__button btn btn-success" 
+            v-else v-on:click="logOutFunction"
+    >
+      Log Out
+    </button>
+
   </div>
 </template>
 
@@ -33,6 +40,7 @@ export default {
     return{
       inputLogin: "",
       inputPassword: "",
+      key: 0
     }
   },
   components: {
@@ -40,28 +48,26 @@ export default {
   computed: {
     buttonDisabled(){
       return (this.inputLogin.trim().length == 0 || this.inputPassword.trim().length == 0)
+    },
+    showForm(){
+      return localStorage.getItem('isАuthorized') == 0
     }
   },
   methods:{
     loginFunction(){
 
       if(this.inputLogin && this.inputPassword){
-
         localStorage.setItem('isАuthorized', '1');
-        // console.log(localStorage.getItem('isАuthorized'));
-
         router.push({path: '/taskList'});
       }
       this.inputLogin = ""
       this.inputPassword = ""
+    },
+    logOutFunction(){
+      localStorage.setItem('isАuthorized', '0');
+      router.go() // не знаю можно ли и правильно ли так делать, но как по другому сделать выход я не знаю пока
     }
   },
-  // beforeRouteLeave: (to, from, next) => {
-  //   if (to.name == 'taskList') next(false)
-  //   else next()
-  //   console.log(to.name)
-  // },
-
 }
 </script>
 
@@ -79,6 +85,11 @@ export default {
   padding: 10px;
 }
 .loginForm__button{
+  border: 1px solid grey;
+  border-radius: 10px;
+  padding: 10px;
+}
+.logOut__button{
   border: 1px solid grey;
   border-radius: 10px;
   padding: 10px;
