@@ -29,7 +29,8 @@ const routes = [
   {
     path: '/task/:id',
     name: 'task',
-    component: () => import('../views/TaskComponent.vue')
+    component: () => import('../views/TaskComponent.vue'),
+    props: true
   },
   {
     path: '*',

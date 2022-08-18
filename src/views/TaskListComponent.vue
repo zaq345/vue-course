@@ -77,7 +77,9 @@
         </button>
 
         <!-- Модальное окно -->
-        <div class="modal fade" v-bind:id="'exampleModal' + item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" v-bind:id="'exampleModal' + item.id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+              v-on:click.stop
+        >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -90,12 +92,12 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        v-on:click.stop
+                        
                 >
                   Закрыть
                 </button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        v-on:click.stop="changeDescription(item.id)">
+                        v-on:click="changeDescription(item.id)">
                   Сохранить изменения
                 </button>
               </div>
@@ -169,7 +171,7 @@ export default {
   methods:{
     detail(id){
       // console.log('some details')
-      router.push({path: '/task/'+id, query: {id:id}});
+      router.push({path: '/task/'+id});
     },
     itemButtonText(id){
       return this.taskList[id].done ? 'completed' : 'in order';
