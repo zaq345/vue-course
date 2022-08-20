@@ -34,6 +34,7 @@
 
 import router from '@/router';
 
+
 export default {
   name: 'HomeComponent',
   data(){
@@ -59,6 +60,8 @@ export default {
       if(this.inputLogin && this.inputPassword){
         localStorage.setItem('isАuthorized', '1');
         router.push({path: '/taskList'});
+        this.$store.dispatch('getTaskList')
+        // setTimeout(() => { console.log(this.$store.state.taskList) }, 100); // работает)))
       }
       this.inputLogin = ""
       this.inputPassword = ""

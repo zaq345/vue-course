@@ -11,7 +11,7 @@
               v-model="task"
       >
       <button class="addingTasks__button"
-              v-on:click="addTask"
+              v-on:click="addTask(task), cleanInput()"
               v-bind:disabled="buttonDisabled"
       >
         Add
@@ -42,6 +42,10 @@
 
     </div>
 
+    <!-- //////////////////////////// -->
+    <!-- <button v-on:click="test()">test</button> -->
+    <!-- //////////////////////////// -->
+
 
     <ul class="list">
 
@@ -53,7 +57,7 @@
           v-on:click="detail(item.id)" 
           v-bind:id="item.id"
           v-bind:key="item.id" 
-          v-for="item in todoSort">
+          v-for="item in /*todoSort*/ /*this.$store.state.taskList1*/ todoSort(this.search, this.picked)">
 
         <button class="task__button"
                 v-bind:class="{done_true:item.done, done_false:!item.done}"
@@ -118,13 +122,15 @@ import isAuthorised from '@/mixins/isAuthorised.vue'
 import StatisticsBlock from '@/components/StatisticsBlock.vue'
 import axios from 'axios'
 import router from '@/router';
+// import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 
 export default {
   name: 'TaskListComponent',
   data(){
     return{
-      taskList: [],
+      // taskList: [],
       task: "",
       search: "",
       picked: 1
@@ -141,98 +147,132 @@ export default {
     StatisticsBlock
   },
   computed: {
+    ...mapGetters([
+      'todoSort'
+    ]),
     zeroBlockVisibility(){
-      return this.taskList.length == 0
+      return this.$store.state.taskList1.length == 0
+      // return this.taskList.length == 0
     },
     buttonDisabled(){
       return this.task.trim().length == 0
     }, 
     completedTasks(){
       let count = 0;
-      for(let i = 0; i < this.taskList.length; i++){
-        if (this.taskList[i].done){
+      for(let i = 0; i < this.$store.state.taskList1.length; i++){
+        if (this.$store.state.taskList1[i].done){
           count++;
         }
       }
       return count;
+      // let count = 0;
+      // for(let i = 0; i < this.taskList.length; i++){
+      //   if (this.taskList[i].done){
+      //     count++;
+      //   }
+      // }
+      // return count;
     }, 
     allTasks(){
-      return this.taskList.length;
+      return this.$store.state.taskList1.length;
+      // return this.taskList.length;
     }, 
-    todoSort() {
-      return this.taskList.filter(item => ((item.desc.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))
-    },
+    // todoSort() {
+    //   return this.taskList.filter(item => ((item.desc.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))
+    // },
   },
   methods:{
+    ...mapMutations([
+      'buttonDoneChange',
+      'deleteItem',
+      'changeDescription',
+      'addTask',
+    ]),
+    //////////////////////////////////////////
+    // test(){
+    //   console.log(this.$store.state.taskList1)
+    // },
+    //////////////////////////////////////////
     detail(id){
       router.push({path: '/task/'+id});
     },
     itemButtonText(id){
-      return this.taskList[id].done ? 'completed' : 'in order';
+      return this.$store.state.taskList1[id].done ? 'completed' : 'in order';
+      // return this.taskList[id].done ? 'completed' : 'in order';
     },
-    buttonDoneChange(id){
-      this.taskList[id].done = !this.taskList[id].done;
-      axios.patch('http://localhost:3000/tasks/' + id, {
-        done: this.taskList[id].done,  
-        updated: new Date(),
-      })
-    },
-    deleteItem(id){
-      if(id == this.taskList.length-1){
-        axios.delete(`http://localhost:3000/tasks/${this.taskList.length-1}`)
-        this.taskList.splice(id, 1);
-      } 
-      else{
-        this.taskList.splice(id, 1);
-        for(let i = 0; i < this.taskList.length; i++){
-          this.taskList[i].id = i;
-        }
+    // buttonDoneChange(id){
+    //   // this.$store.state.taskList1[id].done = !this.$store.state.taskList1[id].done
+    //   // axios.patch('http://localhost:3000/tasks/' + id, {
+    //   //   done: this.$store.state.taskList1[id].done,  
+    //   //   updated: new Date(),
+    //   // })
+    //   this.taskList[id].done = !this.taskList[id].done;
+    //   axios.patch('http://localhost:3000/tasks/' + id, {
+    //     done: this.taskList[id].done,  
+    //     updated: new Date(),
+    //   })
+    // },
 
-        for(let i = id; i < this.taskList.length; i++){
-          axios.patch('http://localhost:3000/tasks/' + i, {
-            id: this.taskList[i].id,
-            title: this.taskList[i].title,
-            desc: this.taskList[i].desc,
-            created: this.taskList[i].created,
-            updated: this.taskList[i].updated,
-            done: this.taskList[i].done
-          })
-        }
+    // deleteItem(id){
+    //   if(id == this.taskList.length-1){
+    //     axios.delete(`http://localhost:3000/tasks/${this.taskList.length-1}`)
+    //     this.taskList.splice(id, 1);
+    //   } 
+    //   else{
+    //     this.taskList.splice(id, 1);
+    //     for(let i = 0; i < this.taskList.length; i++){
+    //       this.taskList[i].id = i;
+    //     }
 
-        setTimeout(() => { axios.delete(`http://localhost:3000/tasks/${this.taskList.length}`) }, 500);        
-      }
-    },
+    //     for(let i = id; i < this.taskList.length; i++){
+    //       axios.patch('http://localhost:3000/tasks/' + i, {
+    //         id: this.taskList[i].id,
+    //         title: this.taskList[i].title,
+    //         desc: this.taskList[i].desc,
+    //         created: this.taskList[i].created,
+    //         updated: this.taskList[i].updated,
+    //         done: this.taskList[i].done
+    //       })
+    //     }
+
+    //     setTimeout(() => { axios.delete(`http://localhost:3000/tasks/${this.taskList.length}`) }, 500);        
+    //   }
+    // },
     editItemDescription(id){
       let textarea = document.getElementById(id + "edit")
-      textarea.value = this.taskList[id].desc;
+      textarea.value = this.$store.state.taskList1[id].desc;
     },
-    changeDescription(id){
-      this.taskList[id].desc = document.getElementById(id + "edit").value;
-      axios.patch('http://localhost:3000/tasks/' + id, {
-        desc: this.taskList[id].desc,
-        updated: new Date(),
-      })
-    },
-    addTask(){
-      this.taskList.push({
-        id: this.taskList.length,
-        title: "title " + new Date(),
-        desc: this.task,
-        created: new Date(),
-        updated: new Date(),
-        done: false
-      });  
+    // changeDescription(id){
+    //   this.taskList[id].desc = document.getElementById(id + "edit").value;
+    //   axios.patch('http://localhost:3000/tasks/' + id, {
+    //     desc: this.taskList[id].desc,
+    //     updated: new Date(),
+    //   })
+    // },
+
+    // addTask1(){
+    //   this.taskList.push({
+    //     id: this.taskList.length,
+    //     title: "title " + new Date(),
+    //     desc: this.task,
+    //     created: new Date(),
+    //     updated: new Date(),
+    //     done: false
+    //   });  
       
-      axios.post(`http://localhost:3000/tasks/` , {
-        id: this.taskList.length-1,
-        title: "title " + new Date(),
-        desc: this.task,
-        created: new Date(),
-        updated: new Date(),
-        done: false
-      })
+    //   axios.post(`http://localhost:3000/tasks/` , {
+    //     id: this.taskList.length-1,
+    //     title: "title " + new Date(),
+    //     desc: this.task,
+    //     created: new Date(),
+    //     updated: new Date(),
+    //     done: false
+    //   })
+    //   this.task = "";
+    // },
+    cleanInput(){
       this.task = "";
-    },
+    }
   },
 
 }
