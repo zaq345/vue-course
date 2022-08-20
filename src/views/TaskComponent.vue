@@ -1,8 +1,6 @@
 <template>
   <div class="task">
     <nav class="taskNav">
-      <!-- <button v-on:click="randItem">test</button> -->
-
       <ul class="taskNav__taskList">
         <li class="taskNav__task"
             v-bind:id="item.id"
@@ -17,15 +15,12 @@
     </nav>
     <div class="taskBlock">
       <h1 class="task__header">Task by Id {{ $route.params.id }}</h1>
-      <!-- <p class="task__description">{{  }}</p> -->
-      <!-- <h6>Title: {{returnTitle}}</h6> -->
       <h6 v-on:click="idlog">id: {{this.taskList[this.id].id}}</h6>
       <h6>title: {{this.taskList[this.id].title}}</h6>
       <h6>desc: {{this.taskList[this.id].desc}}</h6>
       <h6>created: {{this.taskList[this.id].created}}</h6>
       <h6>updated: {{this.taskList[this.id].updated}}</h6>
       <h6>done: {{this.taskList[this.id].done}}</h6>
-      <!-- <h6>{{this.taskList[$route.params.id].desc}}</h6> -->
       <button class="returnButton" v-on:click="returnFunction">Return to TaskList</button>  
     </div>
 
@@ -69,7 +64,6 @@ export default{
       console.log(this.id)
     },
     anotherTask(id){
-      // console.log('some details' + id)
       router.push({path: '/task/'+id});
     },
 

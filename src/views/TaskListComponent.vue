@@ -3,7 +3,6 @@
 
     <h1>This is a taskList page</h1>
 
-    <!-- //////////////////////////////// -->
     <div class="addingTasks">
 
       <input class="addingTasks__input" 
@@ -19,7 +18,6 @@
       </button>
 
     </div>
-    <!-- //////////////////////////////// -->
 
     <StatisticsBlock v-bind:done="completedTasks" v-bind:all="allTasks"/>
 
@@ -116,12 +114,9 @@
 
 <script>
 
-import isAuthorised from '@/mixins/isAuthorised.vue';
-
-import axios from 'axios'
-
+import isAuthorised from '@/mixins/isAuthorised.vue'
 import StatisticsBlock from '@/components/StatisticsBlock.vue'
-
+import axios from 'axios'
 import router from '@/router';
 
 
@@ -170,7 +165,6 @@ export default {
   },
   methods:{
     detail(id){
-      // console.log('some details')
       router.push({path: '/task/'+id});
     },
     itemButtonText(id){
@@ -182,17 +176,8 @@ export default {
         done: this.taskList[id].done,  
         updated: new Date(),
       })
-      // this.$stopPropagation()
     },
     deleteItem(id){
-      //////////////////////////
-      // // это нужно точно
-      // this.taskList.splice(id-1, 1);
-      // for(let i = 0; i < this.taskList.length; i++){
-      //   this.taskList[i].id = i+1;
-      // }
-      //////////////////////////
-
       if(id == this.taskList.length-1){
         axios.delete(`http://localhost:3000/tasks/${this.taskList.length-1}`)
         this.taskList.splice(id, 1);
@@ -216,8 +201,6 @@ export default {
 
         setTimeout(() => { axios.delete(`http://localhost:3000/tasks/${this.taskList.length}`) }, 500);        
       }
-
-      // axios.post('http://localhost:3000/tasks', this.taskList)
     },
     editItemDescription(id){
       let textarea = document.getElementById(id + "edit")
@@ -229,8 +212,6 @@ export default {
         desc: this.taskList[id].desc,
         updated: new Date(),
       })
-
-      // localStorage.setItem('todoListLocal', JSON.stringify(this.todoItems));
     },
     addTask(){
       this.taskList.push({
@@ -250,9 +231,6 @@ export default {
         updated: new Date(),
         done: false
       })
-      // axios.post('http://localhost:3000/tasks/' + id, {
-      //   done: this.taskList[id].done,  
-      // })
       this.task = "";
     },
   },
