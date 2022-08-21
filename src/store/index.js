@@ -8,17 +8,24 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     taskList1: [],
-    // picked1: 1
+    picked1: 1
   },
   getters: {
     todoSort: store => search /*=> picked*/ => {
       // console.log(picked)
-      return store.taskList1.filter(item => ((item.desc.indexOf(search) !== -1) /*&& ((item.done == false && (picked == 1 || picked == 3)) || (item.done == true && (picked == 1 || picked == 2)) )*/ ) );
+      return store.taskList1.filter(item => ((item.desc.indexOf(search) !== -1) && ((item.done == false && (store.picked1 == 1 || store.picked1 == 3)) || (item.done == true && (store.picked1 == 1 || store.picked1 == 2)) ) ) );
+      
+      // return store.taskList1.filter(item => ((item.desc.indexOf(search) !== -1) /*&& ((item.done == false && (picked == 1 || picked == 3)) || (item.done == true && (picked == 1 || picked == 2)) )*/ ) );
+      
       // return this.taskList.filter(item => ((item.desc.indexOf(this.search) !== -1) && ((item.done == false && (this.picked == 1 || this.picked == 3)) || (item.done == true && (this.picked == 1 || this.picked == 2)))))
     },
 
   },
   mutations: {
+    changePicked(store, value){
+      store.picked1 = value
+    },
+
     updateTaskList(store, data){
       store.taskList1 = data
     },

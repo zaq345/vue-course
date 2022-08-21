@@ -26,17 +26,18 @@
     <div class="selectors">
 
       <div class="selectors__first">
-        <input type="radio" id="one" value="1" name="tasks" v-model="picked">
+        <!-- <input type="radio" id="one" value="1" name="tasks" v-model="picked"> -->
+        <input type="radio" id="one" value="1" name="tasks" v-on:click="changePicked(1)" v-model="picked">
         <label for="one">Отображать все задачи</label>          
       </div>
 
       <div class="selectors__second">
-        <input type="radio" id="two" value="2" name="tasks" v-model="picked">
+        <input type="radio" id="two" value="2" name="tasks" v-on:click="changePicked(2)" v-model="picked">
         <label for="two">Отображать выполненные</label>
       </div>
 
       <div class="selectors__third">
-        <input type="radio" id="three" value="3" name="tasks" v-model="picked">
+        <input type="radio" id="three" value="3" name="tasks" v-on:click="changePicked(3)" v-model="picked">
         <label for="three">Отображать невыполненные</label>
       </div>
 
@@ -187,6 +188,7 @@ export default {
       'deleteItem',
       'changeDescription',
       'addTask',
+      'changePicked'
     ]),
     //////////////////////////////////////////
     // test(){
