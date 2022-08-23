@@ -11,7 +11,7 @@
               v-model="task"
       >
       <button class="addingTasks__button"
-              v-on:click="addTask(task), cleanInput()"
+              v-on:click="addTaskAction(task, newId/*, this.$store.state.taskList1.length-1*/), cleanInput()"
               v-bind:disabled="buttonDisabled"
       >
         Add
@@ -58,17 +58,17 @@
           v-on:click="detail(item.id)" 
           v-bind:id="item.id"
           v-bind:key="item.id" 
-          v-for="item in /*todoSort*/ /*this.$store.state.taskList1*/ todoSort(this.search, this.picked)">
+          v-for="item in todoSort(this.search, this.picked)">
 
         <button class="task__button"
                 v-bind:class="{done_true:item.done, done_false:!item.done}"
-                v-on:click.stop="buttonDoneChange(item.id)"
+                v-on:click.stop="buttonDoneChangeAction([item.id, item.done])"
         >        
           {{itemButtonText(item.id)}}
         </button>
         <p class="task__text">{{item.desc}}</p>
 
-        <button class="delete__button" v-on:click.stop="deleteItem(item.id)">
+        <button class="delete__button" v-on:click.stop="deleteItemAction([item.id, newId, list])">
           Удалить
         </button>
 
@@ -100,7 +100,7 @@
                   Закрыть
                 </button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        v-on:click="changeDescription(item.id)">
+                        v-on:click="changeDescriptionAction(item.id)">
                   Сохранить изменения
                 </button>
               </div>
@@ -124,7 +124,7 @@ import StatisticsBlock from '@/components/StatisticsBlock.vue'
 import axios from 'axios'
 import router from '@/router';
 // import { mapActions, mapGetters, mapMutations } from "vuex";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 
 export default {
@@ -149,7 +149,10 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'todoSort'
+      'todoSort',
+      'newId',
+      'getItemDone',
+      'list'
     ]),
     zeroBlockVisibility(){
       return this.$store.state.taskList1.length == 0
@@ -184,14 +187,20 @@ export default {
   },
   methods:{
     ...mapMutations([
-      'buttonDoneChange',
-      'deleteItem',
-      'changeDescription',
-      'addTask',
+      // 'buttonDoneChange',
+      // 'deleteItem',
+      // 'changeDescription',
+      // 'addTask',
       'changePicked'
     ]),
+    ...mapActions([
+      'addTaskAction',
+      'changeDescriptionAction',
+      'buttonDoneChangeAction',
+      'deleteItemAction'
+    ]),
     //////////////////////////////////////////
-    // test(){
+    // test(id){
     //   console.log(this.$store.state.taskList1)
     // },
     //////////////////////////////////////////
