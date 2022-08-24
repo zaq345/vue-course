@@ -1,5 +1,207 @@
 <template>
   <div class="item">
-    <h1>This is an item page by ID: {{$route.params.id}}</h1>
+    <!-- <h1>This is an item page by ID: {{$route.params.id}}</h1> -->
+    <h1>This is an item page by ID: {{this.id}}</h1>
+    <div class="item__wrapper">
+      <p class="item__title">{{this.$store.state.list[this.id-1].title}}</p>
+      <div class="item__main">
+
+        <div class="item__main-left">
+          <v-carousel 
+            hide-delimiters 
+            class="item__carousel"
+          >
+            <v-carousel-item
+              class="item__carousel-item"
+              transition="fade-transition"
+              reverse-transition="fade-transition"
+            >
+              <img class="item__carousel-image" :src="this.$store.state.list[this.id-1].image" alt="item-pic">
+            </v-carousel-item>
+          </v-carousel>          
+        </div>
+
+        <div class="item__main-right">
+          <div class="item__main-right-up">
+            <p class="item__price">Цена: {{this.$store.state.list[this.id-1].price}}</p>
+          </div>
+          <div class="item__main-right-down">
+            <button class="item__counter counter-minus" v-on:click="countDec()">-</button>
+            <input  class="item__counter counter-num" type="number" v-model="count">
+            <button class="item__counter counter-plus" v-on:click="countInc()">+</button>
+            <button class="item__buy-btn">Купить</button>
+          </div>
+        </div>
+
+
+
+      </div>
+      <!-- ////////////////////////////////////////////////////// -->
+      <v-card class="item__tabs">
+        <v-tabs color="black" background-color="blue lighten-4">
+          <v-tab class="item__tab-title">
+            Характеристики
+          </v-tab>
+          <v-tab class="item__tab-title">
+            Описание
+          </v-tab>
+          <v-tab class="item__tab-title">
+            Отзывы
+          </v-tab>
+
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="item__tab-inner">
+                <p>
+                  Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non nisl sit amet velit hendrerit rutrum.
+                </p>
+
+                <p>
+                  Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus blandit leo ut odio.
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="item__tab-inner">
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt, facilis. Reprehenderit voluptates repellendus similique dignissimos sapiente dolorem quam dolores, optio deleniti deserunt. Omnis dolorum, iure sequi facilis in aliquid et. Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.
+                </p>
+
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sunt, facilis. Reprehenderit voluptates repellendus similique dignissimos sapiente dolorem quam dolores, optio deleniti deserunt. Omnis dolorum, iure sequi facilis in aliquid et. Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.
+                </p>
+
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis expedita aut harum porro sint cupiditate ad error voluptate iusto! Facilis sequi quia, nemo ducimus voluptatum omnis repellat rerum suscipit molestias. Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text class="item__tab-inner">
+                <p>
+                  Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
+                </p>
+
+                <p>
+                  Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
+                </p>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
+      </v-card>
+      <!-- ////////////////////////////////////////////////////// -->
+    </div>
+    <TopSalesBlock/>
   </div>
+  
 </template>
+
+<script>
+import TopSalesBlock from '@/components/TopSalesBlock.vue';
+
+export default{
+  name: 'ItemView',
+  components:{
+    TopSalesBlock
+  },
+  props: ['id'],
+  data(){
+    return{
+      count: 1
+    }
+  },
+  // updated(){
+  //   this.count = 1
+  // },
+  methods:{
+    countInc(){
+      this.count++
+    },
+    countDec(){
+      this.count--
+    }
+  }
+}
+</script>
+
+<style scoped>
+.item{
+  padding: 16px;
+}
+.item__main{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.item__wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.item__title{
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.item__tabs{
+  height: 300px;
+  margin-bottom: 20px;
+}
+
+.item__main-left{
+  width: 1000px;
+}
+
+.item__carousel-item{
+  margin: auto;
+}
+.item__carousel-image{
+  max-height: 500px;
+}
+
+.item__price{
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.item__main-right-down{
+  display: flex;
+}
+
+.counter-plus, .counter-minus{
+  font-size: 30px;
+  width: 75px;
+  border: 2px solid gray;
+}
+
+.counter-minus{
+  border-radius: 10px 0 0 10px;
+  border-right: 0;
+}
+.counter-plus{
+  border-radius: 0 10px 10px 0;
+  border-left: 0;
+}
+
+.counter-num{
+  font-size: 40px;
+  padding-left: 25px;
+  width: 75px;
+  border-top: 2px solid gray;
+  border-bottom: 2px solid gray;
+}
+
+.item__buy-btn{
+  background-color: lawngreen;
+  height: 75px;
+  width: 300px;
+  border-radius: 10px;
+  font-size: 30px;
+  margin-left: 20px;
+}
+</style>

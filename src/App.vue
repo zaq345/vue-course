@@ -59,6 +59,15 @@ export default {
   data: () => ({
     //
   }),
+
+  mounted(){
+    this.$store.dispatch('getTaskList');
+    // setTimeout(() => { console.log(this.$store.state.list) }, 200);
+  },
+  updated(){
+    this.$store.dispatch('getTaskList');
+    // setTimeout(() => { console.log(this.$store.state.list) }, 200);
+  }
 };
 </script>
 
