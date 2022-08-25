@@ -130,6 +130,7 @@ export default {
 .home__goodsBlock-card-pic{
   border-radius: 10px 10px 0 0;
   height: 250px;
+  max-width: 400px;
   margin: auto;
 }
 
