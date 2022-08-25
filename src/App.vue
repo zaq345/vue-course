@@ -17,16 +17,16 @@ import FooterBlock from './components/FooterBlock.vue';
 import HeaderBlock from './components/HeaderBlock.vue';
 
 export default {
-    name: "App",
-    data: () => ({
-    //
-    }),
-    mounted() {
-        this.$store.dispatch("getTaskList");
-    },
-    updated() {
-        this.$store.dispatch("getTaskList");
-    },
-    components: { FooterBlock, HeaderBlock }
+  name: "App",
+  data: () => ({
+  //
+  }),
+  mounted() {
+      this.$store.dispatch("getTaskList");
+  },
+  updated() {
+      this.$store.dispatch("getTaskList");
+  },
+  components: { FooterBlock, HeaderBlock }
 };
 </script>
