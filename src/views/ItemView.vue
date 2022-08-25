@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <!-- <h1>This is an item page by ID: {{$route.params.id}}</h1> -->
-    <h1>This is an item page by ID: {{this.id}}</h1>
+    <!-- <h1>This is an item page by ID: {{this.id}}</h1> -->
     <div class="item__wrapper">
       <p class="item__title">{{this.$store.state.list[this.id-1].title}}</p>
       <div class="item__main">
@@ -27,7 +27,8 @@
           </div>
           <div class="item__main-right-down">
             <button class="item__counter counter-minus" v-on:click="countDec()">-</button>
-            <input  class="item__counter counter-num" type="number" v-model="count">
+            <!-- <input  class="item__counter counter-num" type="number" value="1"> -->
+            <input  class="item__counter counter-num" type="number" v-model="count" >
             <button class="item__counter counter-plus" v-on:click="countInc()">+</button>
             <button class="item__buy-btn">Купить</button>
           </div>
@@ -52,13 +53,15 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text class="item__tab-inner">
-                <p>
-                  Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non nisl sit amet velit hendrerit rutrum.
-                </p>
+                <ul>
+                  <li>
+                    Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non nisl sit amet velit hendrerit rutrum.
+                  </li>
+                  <li>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi quisquam esse deserunt nobis cupiditate pariatur maxime similique hic veniam laudantium aperiam dolore eligendi quo exercitationem unde eos, et facilis magnam!
+                  </li>
+                </ul>
 
-                <p>
-                  Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus blandit leo ut odio.
-                </p>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -81,14 +84,17 @@
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text class="item__tab-inner">
-                <p>
-                  Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-                </p>
-
-                <p>
-                  Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
-                </p>
+              <v-card-text class="item__tab-inner item__reviews">
+                <div class="item__reviews-watch">
+                  <div>
+                    <p>UserName</p>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis, quis. Veritatis dolores pariatur quas culpa repudiandae id libero ipsam, commodi sunt aperiam ipsa iure consequuntur quo aliquid aliquam. Animi, voluptates!</p>
+                    <p>date of review</p>
+                  </div>
+                </div>
+                <div class="item__reviews-add">
+                  здесь будет форма добавления отзыва
+                </div>
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -96,9 +102,10 @@
       </v-card>
       <!-- ////////////////////////////////////////////////////// -->
     </div>
+
     <TopSalesBlock/>
+    
   </div>
-  
 </template>
 
 <script>
@@ -115,9 +122,20 @@ export default{
       count: 1
     }
   },
-  // updated(){
-  //   this.count = 1
-  // },
+  updated(){
+    if (this.count < 1){
+      this.count = 1
+    }
+    if (this.count > 99){
+      this.count = 99
+    }
+  },
+
+  watch:{
+    id(){
+      this.count = 1
+    }
+  },
   methods:{
     countInc(){
       this.count++
@@ -151,6 +169,15 @@ export default{
 .item__tabs{
   height: 300px;
   margin-bottom: 20px;
+}
+
+.item__reviews{
+  display: flex;
+  justify-content: space-between;
+}
+
+.item__reviews-watch, .item__reviews-add{
+  width: 45%;
 }
 
 .item__main-left{
@@ -190,7 +217,7 @@ export default{
 
 .counter-num{
   font-size: 40px;
-  padding-left: 25px;
+  padding-left: 17px;
   width: 75px;
   border-top: 2px solid gray;
   border-bottom: 2px solid gray;
