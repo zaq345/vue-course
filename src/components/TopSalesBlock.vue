@@ -24,7 +24,7 @@
               {{item.price}}
             </p>
             <button class="topSalesBlock__card-button"
-              v-on:click.stop
+              v-on:click.stop="addItem(item.id)"
             >
               Купить
             </button>
@@ -51,6 +51,38 @@ export default {
   methods:{
     itemPage(id){
       router.push({path: '/item/'+id});
+    },
+    addItem(id){
+      console.log(id)
+      let object = localStorage.getItem('cart')
+      if(object){
+        let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
+
+        // if (cart.has(`${{id}}`)){
+        if (cart.has(String(id))){
+          // let count = cart.get(`${{id}}`)
+          let count = cart.get(String(id))
+          count++;
+          // cart.set(`${{id}}`, count)
+          cart.set(String(id), count)
+
+        } else {
+          // cart.set(`${{id}}`, 1)
+          cart.set(String(id), 1)
+        }
+
+        const obj = Object.fromEntries(cart);
+        localStorage.setItem('cart', JSON.stringify(obj));
+        this.$store.commit('updateCartLength', cart.size)
+
+      } else {
+        // let cart = new Map([[`${{id}}`, 1]]);
+        let cart = new Map([[String(id), 1]]);
+
+        const obj = Object.fromEntries(cart);
+        localStorage.setItem('cart', JSON.stringify(obj));
+        this.$store.commit('updateCartLength', cart.size)
+      }
     }
   }
 

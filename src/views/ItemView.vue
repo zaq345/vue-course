@@ -30,7 +30,7 @@
             <!-- <input  class="item__counter counter-num" type="number" value="1"> -->
             <input  class="item__counter counter-num" type="number" v-model="count" >
             <button class="item__counter counter-plus" v-on:click="countInc()">+</button>
-            <button class="item__buy-btn">Купить</button>
+            <button class="item__buy-btn" @click="addItem()">Купить</button>
           </div>
         </div>
 
@@ -142,6 +142,33 @@ export default{
     },
     countDec(){
       this.count--
+    },
+    addItem(){
+      console.log(this.id)
+      let object = localStorage.getItem('cart')
+      if(object){
+        let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
+
+        if (cart.has(String(this.id))){
+          let count = cart.get(String(this.id))
+          count = count + this.count;
+          cart.set(String(this.id), count)
+
+        } else {
+          cart.set(String(this.id), this.count)
+        }
+
+        const obj = Object.fromEntries(cart);
+        localStorage.setItem('cart', JSON.stringify(obj));
+        this.$store.commit('updateCartLength', cart.size)
+
+      } else {
+        let cart = new Map([[String(this.id), this.count]]);
+
+        const obj = Object.fromEntries(cart);
+        localStorage.setItem('cart', JSON.stringify(obj));
+        this.$store.commit('updateCartLength', cart.size)
+      }
     }
   }
 }

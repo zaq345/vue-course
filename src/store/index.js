@@ -7,13 +7,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     list: [],
-    counter: 1
+    cartLength: 0 // для виджета кол-ва товаров в корзине
   },
   getters: {
       topSales(store){
         let arr = JSON.parse(JSON.stringify(store.list));
         return arr.splice(0, 4)
-        // return store.list.filter(item => ((item.desc.indexOf(search) !== -1) && ((item.done == false && (store.picked1 == 1 || store.picked1 == 3)) || (item.done == true && (store.picked1 == 1 || store.picked1 == 2)) ) ) );
       },
       goodsHomePage(store){
         let arr = JSON.parse(JSON.stringify(store.list));
@@ -24,6 +23,9 @@ export default new Vuex.Store({
     updateTaskList(store, data){
       store.list = data
     },
+    updateCartLength(store, length){
+      store.cartLength = length
+    }
   },
   actions: {
     async getTaskList(store){

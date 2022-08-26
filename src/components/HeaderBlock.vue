@@ -15,8 +15,13 @@
       </div>
       <div class="nav__right d-flex align-center">
         <a class="nav__phone" href="tel:+7 (495) 123-45-67">+7 (495) 123-45-67</a>
-        <router-link class="nav__link" to="/cart">
+        <router-link class="nav__link nav__cart" to="/cart">
           <v-icon x-large>mdi-cart</v-icon>
+          <div class="nav__widget">
+            <p class="nav__widget-num">
+              <i>{{this.$store.state.cartLength}}</i>
+            </p>
+          </div>
         </router-link>
       </div>
     </div>
@@ -48,12 +53,28 @@ export default {
   height: 50px;
   margin: auto;
 }
-
 .nav__link.router-link-exact-active {
   color: black;
 }
-
 .v-application a {
   color: black !important;
+}
+/* //////////////// */
+.nav__cart{
+  position: relative;
+}
+.nav__widget{
+  position: absolute;
+  display: flex;
+  background-color: red;
+  top: -5px;
+  right: -5px;
+  width: 24px;
+  height: 24px;
+  color: white;
+  border-radius: 12px;
+}
+.nav__widget-num{
+  margin-left: 4px;
 }
 </style>
