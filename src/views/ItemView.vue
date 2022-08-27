@@ -1,7 +1,5 @@
 <template>
   <div class="item">
-    <!-- <h1>This is an item page by ID: {{$route.params.id}}</h1> -->
-    <!-- <h1>This is an item page by ID: {{this.id}}</h1> -->
     <div class="item__wrapper">
       <p class="item__title">{{this.$store.state.list[this.id-1].title}}</p>
       <div class="item__main">
@@ -27,8 +25,7 @@
           </div>
           <div class="item__main-right-down">
             <button class="item__counter counter-minus" v-on:click="countDec()">-</button>
-            <!-- <input  class="item__counter counter-num" type="number" value="1"> -->
-            <input  class="item__counter counter-num" type="number" v-model="count" >
+            <input  class="item__counter counter-num" type="number" v-model="count" disabled>
             <button class="item__counter counter-plus" v-on:click="countInc()">+</button>
             <button class="item__buy-btn" @click="addItem()">Купить</button>
           </div>

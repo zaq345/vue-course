@@ -29,7 +29,7 @@ export default {
       const cart = new Map(Object.entries(JSON.parse(obj) )); // достает из JSON object обратно map
 
       this.$store.commit('updateCartLength', cart.size)
-      console.log('App Mounted, Now cart: ', cart)
+      // console.log('App Mounted, Now cart: ', cart)
     } else{
       this.$store.commit('updateCartLength', 0)
     }
@@ -43,7 +43,7 @@ export default {
       const cart = new Map(Object.entries(JSON.parse(obj) )); // достает из JSON object обратно map
 
       this.$store.commit('updateCartLength', cart.size)
-      console.log('App Updated, Now cart: ', cart)
+      // console.log('App Updated, Now cart: ', cart)
     } else{
       this.$store.commit('updateCartLength', 0)
     }
