@@ -23,7 +23,7 @@
             </p>
             <div class="cart__card-down-bottom">
               <p class="cart__card-price">
-                {{(list[item.id-1].price * item.number).toFixed(2)}}
+                {{currentPrice(list[item.id-1].price, item.number)}}
               </p>
               <div class="cart__card-counter" v-on:click.stop>
                 <button class="item__counter counter-minus" v-on:click="countDec(item.id)">-</button>
@@ -50,7 +50,6 @@
 <script>
 import TopSalesBlock from '@/components/TopSalesBlock.vue';
 import router from '@/router';
-// import { /*mapGetters,*/ mapMutations, /*mapActions*/ } from "vuex";
 
 export default{
   components: { TopSalesBlock },
@@ -70,20 +69,6 @@ export default{
         this.cart_list.push({id: i, number: cart.get(String(i))} )
       }
     }
-  },
-  updated(){
-    // console.log('updated hook')
-    // this.list = []
-    // this.cart_list = []
-    // this.list = JSON.parse(JSON.stringify(this.$store.state.list));
-
-    // let object = localStorage.getItem('cart')
-    // let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
-    // for(let i = 1; i <= 20; i++){
-    //   if(cart.has(String(i))){
-    //     this.cart_list.push({id: i, number: cart.get(String(i))} )
-    //   }
-    // }
   },
   methods:{
     itemPage(id){
@@ -137,6 +122,9 @@ export default{
       const obj = Object.fromEntries(cart);
       localStorage.setItem('cart', JSON.stringify(obj));
       this.$store.commit('updateCartLength', cart.size)
+    },
+    currentPrice(cost, value){
+      return (cost * value).toFixed(2)
     }
 
   },
@@ -160,38 +148,31 @@ export default{
 .cart__cards{
   display: flex;
   width: 1400px;
-  /* justify-content: space-between; */
   flex-wrap: wrap;
 
 }
-/* //////////////////////////// */
 .cart__card{
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  /* background-color: gray; */
   height: 500px;
   width: 400px;
-  /* margin: auto; */
   margin-right: 100px;
   margin-bottom: 50px;
 }
 .cart__card:nth-child(3n){
   margin-right: 0;
 }
-
 .cart__card-up{
   /* border-radius: 10px 10px 0 0; */
   display: flex;
 }
-
 .cart__card-pic{
   max-width: 400px;
   border-radius: 10px 10px 0 0;
   height: 250px;
   margin: auto;
 }
-
 .cart__card-down{
   /* display: flex;
   flex-direction: column; */
@@ -202,7 +183,6 @@ export default{
   font-size: 20px;
   font-weight: bold;
 }
-
 .cart__card-down-bottom{
   position: absolute;
   bottom: 20px;
@@ -212,11 +192,9 @@ export default{
   width: 360px;
   align-items: center;
 }
-
 .cart__card-price{
   margin: auto 0;
 }
-/* //////////////////////////// */
 .cart__card-counter{
   display: flex;
 }
@@ -226,7 +204,6 @@ export default{
   border: 2px solid gray;
   background-color: white;
 }
-
 .counter-minus{
   border-radius: 10px 0 0 10px;
   border-right: 0;
@@ -235,7 +212,6 @@ export default{
   border-radius: 0 10px 10px 0;
   border-left: 0;
 }
-
 .counter-num{
   background-color: white;
   font-size: 40px;
@@ -244,8 +220,6 @@ export default{
   border-top: 2px solid gray;
   border-bottom: 2px solid gray;
 }
-/* //////////////////////////// */
-
 .cart__confirm{
   display: flex;
   flex-direction: column;
