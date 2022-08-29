@@ -38,7 +38,7 @@
     <div class="text-center">
       <v-pagination
         v-model="page"
-        :length="/*4*//*Math.ceil(this.$store.state.list.length / 8)*/countPages(this.$store.state.list.length, 4)"
+        :length="countPages"
         circle
       ></v-pagination>
     </div>
@@ -90,16 +90,19 @@ export default{
         this.$store.commit('updateCartLength', cart.size)
       }
     },
-    countPages(length, num){
-      return Math.ceil(length / num)
-    },
+
     limitedList(){
       let arr = JSON.parse(JSON.stringify(this.$store.state.list))
-      console.log(arr)
-      console.log(this.page)
+      // console.log(arr)
+      // console.log(this.page)
 
       return arr.splice((this.page-1)*4, 4)
     }
+  },
+  computed:{
+    countPages(){
+      return Math.ceil(this.$store.state.list.length / 4)
+    },    
   }
 }
 </script>

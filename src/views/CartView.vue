@@ -66,7 +66,7 @@
 
               <v-card-text class="cart__order-form" v-if="order">
                 <input class="cart__order-input" type="text" placeholder="Имя" v-model="name">
-                <input class="cart__order-input" type="text" placeholder="Номер телефона" v-model="phone">
+                <input class="cart__order-input" type="text" placeholder="Номер телефона" v-model="phone" @keypress="onlyNumbers">
                 <input class="cart__order-input" type="text" placeholder="Адрес" v-model="addres">
                 <input class="cart__order-input" type="text" placeholder="Город" v-model="city">
               </v-card-text>
@@ -149,10 +149,11 @@ export default{
         this.cart_list.push({id: i, number: cart.get(String(i))} )
       }
     }
-    axios.get('http://localhost:3000/orders')
-    .then(response => {
-      console.log(response.data)
-    })
+  },
+  updated(){
+    if(this.phone.length>=12){
+      this.phone = this.phone.slice(0, 11)
+    }
   },
   methods:{
     itemPage(id){
@@ -212,7 +213,7 @@ export default{
     },
     confrimOrder(){
       axios.post('http://localhost:3000/orders', {
-        id: (Math.random()*1000000000).toFixed(),
+        id: Date.now(),
         name: this.name,
         phone: this.phone,
         city: this.city,
@@ -229,6 +230,12 @@ export default{
     },
     changeOrder(){
       this.order = !this.order
+    },
+    onlyNumbers(event) {
+        let keyCode = event.keyCode ? event.keyCode : event.which;
+         if (keyCode < 48 || keyCode > 57) {
+            event.preventDefault();
+        }
     }
 
   },
