@@ -45,7 +45,8 @@
         <div class="text-center">
           <v-dialog
             v-model="dialog"
-            width="500"
+            width="600"
+            persistent
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -63,12 +64,17 @@
                 Оформить заказ
               </v-card-title>
 
-              <v-card-text class="cart__order-form">
-                <!-- Lorem ipsum dolor sit amet, -->
+              <v-card-text class="cart__order-form" v-if="order">
                 <input class="cart__order-input" type="text" placeholder="Имя" v-model="name">
                 <input class="cart__order-input" type="text" placeholder="Номер телефона" v-model="phone">
                 <input class="cart__order-input" type="text" placeholder="Адрес" v-model="addres">
                 <input class="cart__order-input" type="text" placeholder="Город" v-model="city">
+              </v-card-text>
+
+              <v-card-text class="cart__order-form" v-if="!order">
+                <p class="cart__order-form-thanks align-self-center">Спасибо за заказ!</p>
+                <p class="cart__order-form-thanks align-self-center">Номер вашего заказа №1234</p>
+                <p class="cart__order-form-thanks align-self-center">Наш менеджер свяжется с вами в ближайшее время</p>
               </v-card-text>
 
               <v-divider></v-divider>
@@ -79,16 +85,26 @@
                   color="primary"
                   text
                   @click="dialog = false"
+                  v-if="order"
                 >
                   Отмена
                 </v-btn>
                 <v-btn
                   color="primary"
                   text
-                  @click="dialog = false, confrimOrder()"
+                  @click="changeOrder(), confrimOrder()"
                   v-bind:disabled="buttonDisabled"
+                  v-if="order"
                 >
                   Оформить
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="dialog = false"
+                  v-if="!order"
+                >
+                  Ок
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -119,7 +135,8 @@ export default{
       name: '',
       city: '',
       phone: '',
-      addres: ''
+      addres: '',
+      order: true
     }
   },
   mounted(){
@@ -209,6 +226,9 @@ export default{
       this.phone = ''
       this.city = ''
       this.addres = ''
+    },
+    changeOrder(){
+      this.order = !this.order
     }
 
   },
@@ -335,5 +355,13 @@ export default{
   border-radius: 10px;
   height: 50px;
   padding: 10px;
+}
+.cart__order-form-thanks{
+  margin-top: 20px;
+  font-size: 20px;
+}
+.cart__order-form-thanks:nth-child(2n){
+  font-size: 30px;
+  font-weight: bold;
 }
 </style>
