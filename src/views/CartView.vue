@@ -3,6 +3,7 @@
     <h1 class="cart__header">Ваша корзина</h1>
 
     <div class="cart__main">
+      <p v-if="cart_list.length == 0">Ваша корзина пуста</p>
       <div class="cart__cards">
         <v-card
           class="cart__card"
@@ -38,9 +39,64 @@
 
       <div class="cart__confirm">
         <p class="cart__price">Сумма: {{totalAmount()}}</p>
-        <button class="cart__confirm-btn">Оформить</button>
+        <!-- <button class="cart__confirm-btn">Оформить</button> -->
+
+        <!-- ///////////////////////////////////////////////////////////// -->
+        <div class="text-center">
+          <v-dialog
+            v-model="dialog"
+            width="500"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                class="cart__confirm-btn"
+                v-bind="attrs"
+                v-on="on"
+                :disabled="cart_list.length == 0"
+              >
+                Оформить
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title class="text-h5 grey lighten-2">
+                Оформить заказ
+              </v-card-title>
+
+              <v-card-text class="cart__order-form">
+                <!-- Lorem ipsum dolor sit amet, -->
+                <input class="cart__order-input" type="text" placeholder="Имя" v-model="name">
+                <input class="cart__order-input" type="text" placeholder="Номер телефона" v-model="phone">
+                <input class="cart__order-input" type="text" placeholder="Адрес" v-model="addres">
+                <input class="cart__order-input" type="text" placeholder="Город" v-model="city">
+              </v-card-text>
+
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="dialog = false"
+                >
+                  Отмена
+                </v-btn>
+                <v-btn
+                  color="primary"
+                  text
+                  @click="dialog = false, confrimOrder()"
+                  v-bind:disabled="buttonDisabled"
+                >
+                  Оформить
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
       </div>
     </div>
+    <!-- ///////////////////////////////////////////////////////////// -->
 
     <TopSalesBlock/>
 
@@ -50,13 +106,20 @@
 <script>
 import TopSalesBlock from '@/components/TopSalesBlock.vue';
 import router from '@/router';
+import axios from 'axios';
 
 export default{
   components: { TopSalesBlock },
   data(){
     return{
       list: [],
-      cart_list: []
+      cart_list: [],
+
+      dialog: false,
+      name: '',
+      city: '',
+      phone: '',
+      addres: ''
     }
   },
   mounted(){
@@ -69,6 +132,10 @@ export default{
         this.cart_list.push({id: i, number: cart.get(String(i))} )
       }
     }
+    axios.get('http://localhost:3000/orders')
+    .then(response => {
+      console.log(response.data)
+    })
   },
   methods:{
     itemPage(id){
@@ -125,10 +192,30 @@ export default{
     },
     currentPrice(cost, value){
       return (cost * value).toFixed(2)
+    },
+    confrimOrder(){
+      axios.post('http://localhost:3000/orders', {
+        id: (Math.random()*1000000000).toFixed(),
+        name: this.name,
+        phone: this.phone,
+        city: this.city,
+        addres: this.addres,
+        items: this.cart_list
+      })
+      this.cart_list = []
+      this.$store.commit('updateCartLength', 0)
+      localStorage.removeItem('cart')
+      this.name = ''
+      this.phone = ''
+      this.city = ''
+      this.addres = ''
     }
 
   },
   computed:{
+    buttonDisabled(){
+      return (this.name.trim().length == 0) || (this.city.trim().length == 0) || (this.phone.trim().length == 0) || (this.addres.trim().length == 0) 
+    }
 
   }
 }
@@ -229,11 +316,24 @@ export default{
   font-weight: bold;
 }
 .cart__confirm-btn{
-  background-color: lawngreen;
+  background-color: lawngreen !important;
   border-radius: 10px;
-  height: 75px;
+  height: 75px !important;
   width: 350px;
   font-size: 25px;
   font-weight: bold;
+}
+.cart__order-form{
+  display: flex;
+  flex-direction: column;
+}
+.cart__order-input{
+  width: 95%;
+  margin: auto;
+  margin-top: 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  height: 50px;
+  padding: 10px;
 }
 </style>
