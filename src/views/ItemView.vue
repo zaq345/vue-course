@@ -90,7 +90,12 @@
                   </div>
                 </div>
                 <div class="item__reviews-add">
-                  здесь будет форма добавления отзыва
+                  <!-- здесь будет форма добавления отзыва -->
+                  <p class="item__reviews-add-header">Оставить отзыв</p>
+                  <input class="item__reviews-add-name" placeholder="Имя" type="text">
+                  <!-- <input class="item__reviews-add-review" placeholder="Отзыв" type="text" name="" id=""> -->
+                  <textarea class="item__reviews-add-review" placeholder="Отзыв" name="" id="" cols="30" rows="10"></textarea>
+                  <button class="item__reviews-add-btn">Отправить</button>
                 </div>
               </v-card-text>
             </v-card>
@@ -202,6 +207,32 @@ export default{
 
 .item__reviews-watch, .item__reviews-add{
   width: 45%;
+}
+.item__reviews-add{
+  display: flex;
+  flex-direction: column;
+}
+.item__reviews-add-header{
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.item__reviews-add-review, .item__reviews-add-name{
+  border: 2px solid grey;
+  width: 90%;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  height: 40px;
+  padding: 10px;
+}
+.item__reviews-add-review{
+  height: 80px;
+}
+.item__reviews-add-btn{
+  width: 200px;
+  height: 40px;
+  background-color: lawngreen;
+  border-radius: 10px;
 }
 
 .item__main-left{
