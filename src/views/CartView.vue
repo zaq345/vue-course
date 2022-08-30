@@ -3,7 +3,7 @@
     <h1 class="cart__header">Ваша корзина</h1>
 
     <div class="cart__main">
-      <p v-if="cart_list.length == 0">Ваша корзина пуста</p>
+      <p v-if="this.$store.state.cart_list.length == 0">Ваша корзина пуста</p>
       <div class="cart__cards">
         <v-card
           class="cart__card"
