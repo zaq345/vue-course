@@ -53,7 +53,7 @@
                 class="cart__confirm-btn"
                 v-bind="attrs"
                 v-on="on"
-                :disabled="cart_list.length == 0"
+                :disabled="cartButtonDisabled"
               >
                 Оформить
               </v-btn>
@@ -241,12 +241,27 @@ export default{
          if (keyCode < 48 || keyCode > 57) {
             event.preventDefault();
         }
-    }
+    },
+    // phone(name) {
+    //   "use strict";
+    //   var r = /([0-9])+/g, arr = name.match(r), res, str = arr.join('');
+    //   if (name.substr(0, 1) === '+') {
+    //           res = "+" + str;
+    //   } else if (str.substr(0, 1) === '8') {
+    //           res = "+7" + str.substr(1);
+    //   } else {
+    //           res = str;
+    //   }
+    //   return res;
+    // } 
 
   },
   computed:{
     buttonDisabled(){
-      return (this.name.trim().length == 0) || (this.city.trim().length == 0) || (this.phone.trim().length == 0) || (this.addres.trim().length == 0) 
+      return (this.name.trim().length == 0) || (this.city.trim().length == 0) || (this.phone.trim().length != 11) || (this.addres.trim().length == 0) 
+    },
+    cartButtonDisabled(){
+      return this.$store.state.cart_list.length == 0
     },
     ...mapGetters([
     'returnCartList'
