@@ -58,16 +58,12 @@ export default {
       if(object){
         let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
 
-        // if (cart.has(`${{id}}`)){
         if (cart.has(String(id))){
-          // let count = cart.get(`${{id}}`)
           let count = cart.get(String(id))
           count++;
-          // cart.set(`${{id}}`, count)
           cart.set(String(id), count)
 
         } else {
-          // cart.set(`${{id}}`, 1)
           cart.set(String(id), 1)
         }
 
@@ -76,13 +72,27 @@ export default {
         this.$store.commit('updateCartLength', cart.size)
 
       } else {
-        // let cart = new Map([[`${{id}}`, 1]]);
         let cart = new Map([[String(id), 1]]);
 
         const obj = Object.fromEntries(cart);
         localStorage.setItem('cart', JSON.stringify(obj));
         this.$store.commit('updateCartLength', cart.size)
       }
+
+      let a = 0
+
+      for(let i = 0; i < this.$store.state.cart_list.length; i++){
+        if(id == this.$store.state.cart_list[i].id){
+          this.$store.state.cart_list[i].number++
+          a = 1
+        }
+      }
+
+      if (a == 0){
+        this.$store.state.cart_list.push({id: id, number: 1})
+      }
+
+
     }
   }
 

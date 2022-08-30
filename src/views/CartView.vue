@@ -8,7 +8,7 @@
         <v-card
           class="cart__card"
           elevation="5"
-          v-for="item in cart_list"
+          v-for="item in /*returnCartList*/ this.$store.state.cart_list /*cart_list*/"
           :key="item.id"
           v-on:click="itemPage(item.id)"
         >
@@ -123,6 +123,7 @@
 import TopSalesBlock from '@/components/TopSalesBlock.vue';
 import router from '@/router';
 import axios from 'axios';
+import { mapGetters/*, mapMutations, mapActions*/ } from "vuex";
 
 export default{
   components: { TopSalesBlock },
@@ -154,6 +155,7 @@ export default{
     if(this.phone.length>=12){
       this.phone = this.phone.slice(0, 11)
     }
+    // this.cart_list = []
   },
   methods:{
     itemPage(id){
@@ -161,52 +163,54 @@ export default{
     },
     totalAmount(){
       let sum = 0;
-      for(let i = 0; i < this.cart_list.length; i++){
-        sum = sum + (this.list[this.cart_list[i].id-1].price * this.cart_list[i].number)
+      for(let i = 0; i < this.$store.state.cart_list.length; i++){
+        sum = sum + (this.list[this.$store.state.cart_list[i].id-1].price * this.$store.state.cart_list[i].number)
       }
       return Math.ceil(sum).toFixed(2)
     },
 
     countInc(id){
-      let object = localStorage.getItem('cart')
-      let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
-      for(let i = 1; i <= this.list.length; i++){
-        if(i == id){
-          for(let j = 0; j < this.cart_list.length; j++){
-            if(this.cart_list[j].id == i){ 
-              this.cart_list[j].number++
-              if(this.cart_list[j].number > 99){
-                this.cart_list[j].number = 99
-              }
-              cart.set(String(id), this.cart_list[j].number)
-            }
-          }
-        }
-      }
-      const obj = Object.fromEntries(cart);
-      localStorage.setItem('cart', JSON.stringify(obj));
+      // let object = localStorage.getItem('cart')
+      // let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
+      // for(let i = 1; i <= this.list.length; i++){
+      //   if(i == id){
+      //     for(let j = 0; j < this.cart_list.length; j++){
+      //       if(this.cart_list[j].id == i){ 
+      //         this.cart_list[j].number++
+      //         if(this.cart_list[j].number > 99){
+      //           this.cart_list[j].number = 99
+      //         }
+      //         cart.set(String(id), this.cart_list[j].number)
+      //       }
+      //     }
+      //   }
+      // }
+      // const obj = Object.fromEntries(cart);
+      // localStorage.setItem('cart', JSON.stringify(obj));
+      this.$store.commit('countInc', id)
     },
     countDec(id){
-      let object = localStorage.getItem('cart')
-      let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
-      for(let i = 1; i <= this.list.length; i++){
-        if(i == id){
-          for(let j = 0; j < this.cart_list.length; j++){
-            if(this.cart_list[j].id == i){
-              this.cart_list[j].number--
-              if(this.cart_list[j].number < 1){
-                cart.delete(String(id))
-                this.cart_list.splice(j, 1)
-              } else {
-                cart.set(String(id), this.cart_list[j].number)
-              }
-            }
-          }
-        }
-      }
-      const obj = Object.fromEntries(cart);
-      localStorage.setItem('cart', JSON.stringify(obj));
-      this.$store.commit('updateCartLength', cart.size)
+      this.$store.commit('countDec', id)
+      // let object = localStorage.getItem('cart')
+      // let cart = new Map(Object.entries(JSON.parse(object) )); // достает из JSON object обратно map
+      // for(let i = 1; i <= this.list.length; i++){
+      //   if(i == id){
+      //     for(let j = 0; j < this.cart_list.length; j++){
+      //       if(this.cart_list[j].id == i){
+      //         this.cart_list[j].number--
+      //         if(this.cart_list[j].number < 1){
+      //           cart.delete(String(id))
+      //           this.cart_list.splice(j, 1)
+      //         } else {
+      //           cart.set(String(id), this.cart_list[j].number)
+      //         }
+      //       }
+      //     }
+      //   }
+      // }
+      // const obj = Object.fromEntries(cart);
+      // localStorage.setItem('cart', JSON.stringify(obj));
+      // this.$store.commit('updateCartLength', cart.size)
     },
     currentPrice(cost, value){
       return (cost * value).toFixed(2)
@@ -222,6 +226,7 @@ export default{
       })
       this.cart_list = []
       this.$store.commit('updateCartLength', 0)
+      this.$store.commit('deleteCart')
       localStorage.removeItem('cart')
       this.name = ''
       this.phone = ''
@@ -242,9 +247,12 @@ export default{
   computed:{
     buttonDisabled(){
       return (this.name.trim().length == 0) || (this.city.trim().length == 0) || (this.phone.trim().length == 0) || (this.addres.trim().length == 0) 
-    }
-
+    },
+    ...mapGetters([
+    'returnCartList'
+    ])
   }
+
 }
 </script>
 
